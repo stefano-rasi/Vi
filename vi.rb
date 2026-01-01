@@ -11,47 +11,49 @@ class Vi < View
         HTML.div 'vi-view', "#{@mode}-mode", ('focus' if @focus) do |element|
             element.tabIndex = 0
 
-            HTML.div 'lines' do
-                y = 0
+            HTML.div 'lines-container' do
+                HTML.div 'lines' do
+                    y = 0
 
-                @lines.each do |line|
-                    HTML.div 'line' do
-                        x = 0
+                    @lines.each do |line|
+                        HTML.div 'line' do
+                            x = 0
 
-                        if line.empty?
-                            HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                _html '&nbsp;'
-
-                                if x == @x && y == @y
-                                    @cursor = element
-                                end
-                            end
-                        else
-                            line.each do |character|
+                            if line.empty?
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                    if character == ' '
-                                        _html '&nbsp;'
-                                    else
-                                        _text character
-                                    end
+                                    _html '&nbsp;'
 
                                     if x == @x && y == @y
                                         @cursor = element
                                     end
                                 end
+                            else
+                                line.each do |character|
+                                    HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
+                                        if character == ' '
+                                            _html '&nbsp;'
+                                        else
+                                            _text character
+                                        end
 
-                                x += 1
-                            end
+                                        if x == @x && y == @y
+                                            @cursor = element
+                                        end
+                                    end
 
-                            if y == @y && @x == x
-                                HTML.div 'character cursor' do |element|
-                                    @cursor = element
+                                    x += 1
+                                end
+
+                                if y == @y && @x == x
+                                    HTML.div 'character cursor' do |element|
+                                        @cursor = element
+                                    end
                                 end
                             end
                         end
-                    end
 
-                    y += 1
+                        y += 1
+                    end
                 end
             end
 
@@ -62,7 +64,7 @@ class Vi < View
                     end
                 else
                     HTML.div 'mode' do
-                        _text "--#{@mode}--"
+                        _text "--#{@mode.upcase}--"
                     end
                 end
 
