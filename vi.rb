@@ -101,7 +101,7 @@ class Vi < View
     end
 
     def focus()
-        element.focus()
+        @element.focus()
     end
 
     def scroll()
@@ -129,7 +129,7 @@ class Vi < View
             draw
             scroll
 
-            element.focus()
+            @element.focus()
         end
     end
 end
