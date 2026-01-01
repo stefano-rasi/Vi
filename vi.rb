@@ -8,7 +8,9 @@ require_relative 'mode/replace'
 
 class Vi < View
     draw do
-        HTML.div 'vi-view', "#{@mode}-mode" do
+        HTML.div 'vi-view', "#{@mode}-mode", ('focus' if @focus) do |element|
+            element.tabIndex = 0
+
             HTML.div 'lines' do
                 y = 0
 
@@ -98,6 +100,10 @@ class Vi < View
         @lines.map { |line| line.join('') }.join("\n")
     end
 
+    def focus()
+        element.focus()
+    end
+
     def scroll()
         @cursor.scrollIntoView({block: :nearest})
     end
@@ -105,20 +111,25 @@ class Vi < View
     def on_keydown(event)
         event = Native(event)
 
-        mode = @mode
+        if Document.activeElement == element
+            event.preventDefault()
+            event.stopPropagation()
 
-        case mode
-        when :normal
-            normal(event)
-        when :insert
-            insert(event)
-        when :replace
-            replace(event)
-        when :command
-            command(event)
+            case @mode
+            when :normal
+                normal(event)
+            when :insert
+                insert(event)
+            when :replace
+                replace(event)
+            when :command
+                command(event)
+            end
+
+            draw
+            scroll
+
+            element.focus()
         end
-
-        draw
-        scroll
     end
 end
