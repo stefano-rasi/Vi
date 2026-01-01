@@ -1,8 +1,6 @@
 require 'lib/View/html'
 require 'lib/View/view'
 
-require 'lib/View/window'
-
 require_relative 'mode/insert'
 require_relative 'mode/normal'
 require_relative 'mode/command'
@@ -117,10 +115,4 @@ class Vi < View
         draw
         scroll
     end
-end
-
-Window.addEventListener('load') do
-    vi = ViView.new("line 1\nline 2\nline 3\nline 4")
-
-    Document.body.appendChild(vi.element)
 end
