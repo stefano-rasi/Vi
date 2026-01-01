@@ -76,12 +76,7 @@ class Vi < View
         end
     end
 
-    def initialize(text)
-        @x = 0
-        @y = 0
-
-        @mode = :normal
-
+    def initialize(text, last=false)
         if text
             lines = text.split("\n")
 
@@ -93,6 +88,16 @@ class Vi < View
         else
             @lines = [[]]
         end
+
+        @x = 0
+
+        if last
+            @y = @lines.length-1
+        else
+            @x = 0
+        end
+
+        @mode = :normal
 
         Window.addEventListener('keydown', &method(:on_keydown))
     end
@@ -129,8 +134,7 @@ class Vi < View
 
             draw
             scroll
-
-            @element.focus()
+            focus
         end
     end
 end
