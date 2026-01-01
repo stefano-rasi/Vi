@@ -17,7 +17,9 @@ class Vi < View
                         x = 0
 
                         if line.empty?
-                            HTML.div 'character empty', ('cursor' if x == @x && y == @y) do |element|
+                            HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
+                                _html '&nbsp;'
+
                                 if x == @x && y == @y
                                     @cursor = element
                                 end
