@@ -95,13 +95,7 @@ class Vi < View
     end
 
     def text
-        @lines.map { |line|
-            if line.empty?
-                ''
-            else
-                line.join('')
-            end
-        }.join("\n")
+        @lines.map { |line| line.join('') }.join("\n")
     end
 
     def scroll()
