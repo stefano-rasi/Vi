@@ -1,4 +1,4 @@
-class Vi
+class Vi < View
     def normal(event)
         key = event.key
 

@@ -1,4 +1,4 @@
-class Vi
+class Vi < View
     def command(event)
         key = event.key
 

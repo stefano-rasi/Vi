@@ -1,4 +1,4 @@
-class Vi
+class Vi < View
     def replace(event)
         key = event.key
 

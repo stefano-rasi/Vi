@@ -1,4 +1,4 @@
-class Vi
+class Vi < View
     def insert(event)
         key = event.key
 
