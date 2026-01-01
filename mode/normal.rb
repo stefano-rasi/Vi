@@ -102,6 +102,12 @@ class Vi < View
             else
                 pending = 'y'
             end
+        when 'D'
+            x = @lines[@y].length-1
+
+            (x - @x + 1).times { @lines[@y].delete_at(@x) }
+
+            @x -= 1 if @x > 0
         when 'G'
             @x = 0
             @y = @lines.length-1
