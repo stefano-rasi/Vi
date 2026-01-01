@@ -25,7 +25,11 @@ class Vi < View
                         else
                             line.each do |character|
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                    _text character
+                                    if character == ' '
+                                        _html '&nbsp;'
+                                    else
+                                        _text character
+                                    end
 
                                     if x == @x && y == @y
                                         @cursor = element
