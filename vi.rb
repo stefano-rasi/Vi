@@ -111,7 +111,7 @@ class Vi < View
     def on_keydown(event)
         event = Native(event)
 
-        if Document.activeElement == element
+        if Document.activeElement == @element
             event.preventDefault()
             event.stopPropagation()
 
