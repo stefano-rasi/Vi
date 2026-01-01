@@ -64,14 +64,24 @@ class Vi < View
 
                 @lines = [[]] if @lines.empty?
             else
+                @x = [0, [@x, @lines[y].length-1].min].max
                 @y = y
-
-                @x = [0, [@x, @lines[@y].length-1].min].max
             end
         when 'k'
-            @y -= [multiplier, @y].min
+            y = @y - [multiplier, @y].min
 
-            @x = [0, [@x, @lines[@y].length-1].min].max
+            case @pending
+            when 'd'
+                (@y - y + 1).times { @lines.delete_at(y) }
+
+                @x = 0
+                @y = [0, y - 1].max
+
+                @lines = [[]] if @lines.empty?
+            else
+                @x = [0, [@x, @lines[y].length-1].min].max
+                @y = y
+            end
         when 'h'
             @x -= [multiplier, @x].min
 
@@ -102,6 +112,10 @@ class Vi < View
             else
                 pending = 'y'
             end
+        when 'A'
+            @x = @lines[@y].length
+
+            @mode = :insert
         when 'D'
             x = @lines[@y].length-1
 
