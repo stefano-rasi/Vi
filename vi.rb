@@ -23,9 +23,7 @@ class Vi < View
                             HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
                                 _html '&nbsp;'
 
-                                if x == @x && y == @y
-                                    @cursor = element
-                                end
+                                @cursor = element if x == @x && y == @y
                             end
                         else
                             line.each do |character|
@@ -36,9 +34,7 @@ class Vi < View
                                         _text character
                                     end
 
-                                    if x == @x && y == @y
-                                        @cursor = element
-                                    end
+                                    @cursor = element if x == @x && y == @y
                                 end
 
                                 x += 1
@@ -135,6 +131,22 @@ class Vi < View
             draw
             scroll
             focus
+        end
+    end
+
+    def on_save(&block)
+        if block_given?
+            @on_save_block = block
+        else
+            @on_save_block.call(text)
+        end
+    end
+
+    def on_close(&block)
+        if block_given?
+            @on_close_block = block
+        else
+            @on_close_block.call()
         end
     end
 end
