@@ -156,6 +156,9 @@ class Vi < View
         when 'G'
             @x = 0
             @y = @lines.length-1
+        when 'H'
+            @x = 0
+            @y = 0
         when 'J'
             history
 
