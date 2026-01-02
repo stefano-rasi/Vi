@@ -135,6 +135,8 @@ class Vi < View
             history
 
             @lines[@y].delete_at(@x)
+
+            @x = @lines[@y].length-1 if @x >= @lines[@y].length
         when 'A'
             history
 
