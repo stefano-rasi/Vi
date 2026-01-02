@@ -17,7 +17,9 @@ class Vi < View
             x = @lines[@y].length-1
 
             case @pending
-            when 'c', 'd'
+            when 'd'
+                history
+
                 (x - @x + 1).times { @lines[@y].delete_at(@x) }
 
                 @x -= 1 if @x > 0
@@ -45,6 +47,8 @@ class Vi < View
         when 'd'
             case @pending
             when 'd'
+                history
+
                 @lines.delete_at(@y)
 
                 @x = 0
@@ -59,6 +63,8 @@ class Vi < View
 
             case @pending
             when 'd'
+                history
+
                 (y - @y + 1).times { @lines.delete_at(@y) }
 
                 @x = 0
@@ -74,6 +80,8 @@ class Vi < View
 
             case @pending
             when 'd'
+                history
+
                 (@y - y + 1).times { @lines.delete_at(y) }
 
                 @x = 0
@@ -86,15 +94,15 @@ class Vi < View
             end
         when 'h'
             @x -= [multiplier, @x].min
-
-            @mode = :insert if @pending == 'c'
         when 'l'
             @x += [0, [multiplier, @lines[@y].length-1 - @x].min].max
-
-            @mode = :insert if @pending == 'c'
         when 'i'
+            history
+
             @mode = :insert
         when 'o'
+            history
+
             @lines.insert(@y + 1, [] * multiplier)
 
             @x = 0
@@ -104,16 +112,38 @@ class Vi < View
         when 'r'
             @mode = :replace
         when 's'
+            history
+
             @lines[@y].delete_at(@x)
 
             @mode = :insert
+        when 'u'
+            if !@history.empty?
+                @lines = @history.pop
+
+                if @y >= @lines.length
+                    @y = [0, @lines.length-1].max
+                end
+
+                if @x >= @lines[@y].length
+                    @x = [0, @lines[@y].length-1].max
+                end
+
+                Console.log(@lines, @x, @y)
+            end
         when 'x'
+            history
+
             @lines[@y].delete_at(@x)
         when 'A'
+            history
+
             @x = @lines[@y].length
 
             @mode = :insert
         when 'D'
+            history
+
             x = @lines[@y].length-1
 
             (x - @x + 1).times { @lines[@y].delete_at(@x) }
@@ -123,10 +153,14 @@ class Vi < View
             @x = 0
             @y = @lines.length-1
         when 'J'
+            history
+
             @lines[@y] += @lines[@y + 1]
 
             @lines.delete_at(@y + 1)
         when 'O'
+            history
+
             @lines.insert(@y, [] * multiplier)
 
             @x = 0

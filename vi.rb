@@ -55,7 +55,7 @@ class Vi < View
             HTML.div 'status-bar' do
                 if @mode == :command
                     HTML.div 'command' do
-                        _text ":#{@command}"
+                        _text @command
                     end
                 else
                     HTML.div 'mode' do
@@ -73,6 +73,10 @@ class Vi < View
     end
 
     def initialize(text, last=false)
+        @mode = :normal
+
+        @history = []
+
         if text
             lines = text.split("\n")
 
@@ -93,8 +97,6 @@ class Vi < View
             @x = 0
         end
 
-        @mode = :normal
-
         Window.addEventListener('keydown', &method(:on_keydown))
     end
 
@@ -108,6 +110,10 @@ class Vi < View
 
     def scroll()
         @cursor.scrollIntoView({block: :nearest})
+    end
+
+    def history()
+        @history << @lines.map { |line| line.clone }
     end
 
     def on_keydown(event)
