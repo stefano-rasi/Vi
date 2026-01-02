@@ -20,11 +20,9 @@ class Vi < View
                         x = 0
 
                         if line.empty?
-                            if @mode == :insert
-                                if x == @x && y == @y
-                                    HTML.input 'cursor' do |input|
-                                        @input = input
-                                    end
+                            if @mode == :insert && x == @x && y == @y
+                                HTML.input 'cursor' do |input|
+                                    @input = input
                                 end
                             else
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
