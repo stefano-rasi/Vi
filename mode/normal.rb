@@ -107,13 +107,8 @@ class Vi < View
             @lines[@y].delete_at(@x)
 
             @mode = :insert
-        when 'y'
-            case @pending
-            when 'y'
-                @yank = @lines[@y]
-            else
-                pending = 'y'
-            end
+        when 'x'
+            @lines[@y].delete_at(@x)
         when 'A'
             @x = @lines[@y].length
 
