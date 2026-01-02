@@ -11,7 +11,7 @@ class Vi < View
             @x = 0
             @y += 1
         when :Escape
-            @x = [@x, @lines[@y].length-1].min
+            @x = [0, [@x, @lines[@y].length-1].min].max
 
             @mode = :normal
         when :Backspace
