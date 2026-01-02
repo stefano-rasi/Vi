@@ -31,7 +31,11 @@ class Vi < View
 
             @mode = :insert if @pending == 'c'
         when '0'
-            @x = 0
+            if @multiplier
+                new_multiplier = (@multiplier.to_s + key).to_i
+            else
+                @x = 0
+            end
         when '1'..'9'
             pending = @pending
 
