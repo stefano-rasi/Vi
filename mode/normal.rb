@@ -145,7 +145,7 @@ class Vi < View
             @x = @lines[@y].length-1 if @x >= @lines[@y].length
         when 'y'
             if @pending == 'y'
-                @yank = @lines[@y]
+                @yank = @lines[@y].clone
             else
                 pending = 'y'
             end
