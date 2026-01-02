@@ -130,8 +130,6 @@ class Vi < View
                 if @x >= @lines[@y].length
                     @x = [0, @lines[@y].length-1].max
                 end
-
-                Console.log(@lines, @x, @y)
             end
         when 'x'
             history
