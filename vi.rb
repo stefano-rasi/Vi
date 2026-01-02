@@ -143,7 +143,7 @@ class Vi < View
     def on_save(&block)
         if block_given?
             @on_save_block = block
-        else
+        elsif @on_save_block
             @on_save_block.call(text)
         end
     end
@@ -151,7 +151,7 @@ class Vi < View
     def on_close(&block)
         if block_given?
             @on_close_block = block
-        else
+        elsif @on_close_block
             @on_close_block.call()
         end
     end
