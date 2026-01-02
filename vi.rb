@@ -94,7 +94,7 @@ class Vi < View
         if last
             @y = @lines.length-1
         else
-            @x = 0
+            @y = 0
         end
 
         Window.addEventListener('keydown', &method(:on_keydown))
