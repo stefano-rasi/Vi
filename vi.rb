@@ -20,13 +20,27 @@ class Vi < View
                         x = 0
 
                         if line.empty?
-                            HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                _html '&nbsp;'
+                            if @mode == :insert
+                                if x == @x && y == @y
+                                    HTML.input 'cursor' do |input|
+                                        @input = input
+                                    end
+                                end
+                            else
+                                HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
+                                    _html '&nbsp;'
 
-                                @cursor = element if x == @x && y == @y
+                                    @cursor = element if x == @x && y == @y
+                                end
                             end
                         else
                             line.each do |character|
+                                if @mode == :insert && x == @x && y == @y
+                                    HTML.input 'cursor' do |input|
+                                        @input = input
+                                    end
+                                end
+
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
                                     if character == ' '
                                         _html '&nbsp;'
@@ -41,8 +55,14 @@ class Vi < View
                             end
 
                             if y == @y && @x == x
-                                HTML.div 'character cursor' do |element|
-                                    @cursor = element
+                                if @mode == :insert
+                                    HTML.input 'cursor' do |input|
+                                        @input = input
+                                    end
+                                else
+                                    HTML.div 'character cursor' do |element|
+                                        @cursor = element
+                                    end
                                 end
                             end
                         end
@@ -98,6 +118,7 @@ class Vi < View
         end
 
         Window.addEventListener('keydown', &method(:on_keydown))
+        Window.addEventListener('compositionend', &method(:on_compositionend))
     end
 
     def text
@@ -105,7 +126,11 @@ class Vi < View
     end
 
     def focus()
-        @element.focus()
+        if @mode == :insert
+            @input.focus()
+        else
+            @element.focus()
+        end
     end
 
     def scroll()
@@ -113,13 +138,15 @@ class Vi < View
     end
 
     def history()
-        @history << @lines.map { |line| line.clone }
+        @history << @lines.map { |line|
+            line.clone
+        }
     end
 
     def on_keydown(event)
         event = Native(event)
 
-        if Document.activeElement == @element
+        if [@input, @element].include? Document.activeElement
             handled = nil
 
             case @mode
@@ -142,6 +169,20 @@ class Vi < View
                 focus
             end
         end
+    end
+
+    def on_compositionend(event)
+        event = Native(event)
+
+        event.data.split('').each do |character|
+            @lines[@y].insert(@x, character)
+
+            @x += 1
+        end
+
+        draw
+        scroll
+        focus
     end
 
     def on_save(&block)
