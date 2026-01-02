@@ -41,6 +41,8 @@ class Vi < View
                 new_multiplier = key.to_i
             end
         when 'a'
+            history
+
             @x += 1 if !@lines[@y].empty?
 
             @mode = :insert
