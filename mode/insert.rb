@@ -11,8 +11,6 @@ class Vi < View
             @x = 0
             @y += 1
         when :Escape
-            @x -= 1 if @x > 0
-
             @mode = :normal
         when :Backspace
             @lines[@y].delete_at(@x - 1)
