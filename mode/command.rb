@@ -2,6 +2,8 @@ class Vi < View
     def command(event)
         key = event.key
 
+        handled = true
+
         case key
         when :Enter
             case @command
@@ -23,7 +25,11 @@ class Vi < View
                 @command = '' if !@command
 
                 @command += key
+            else
+                handled = false
             end
         end
+
+        handled
     end
 end

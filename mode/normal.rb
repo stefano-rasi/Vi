@@ -2,6 +2,8 @@ class Vi < View
     def normal(event)
         key = event.key
 
+        handled = true
+
         if @multiplier
             multiplier = @multiplier
         else
@@ -171,7 +173,9 @@ class Vi < View
         when :Escape
             pending = nil
         else
-            if key.length != 1
+            if key.length != 1 || event.ctrlKey
+                handled = false
+
                 pending = @pending
 
                 new_multiplier = @multiplier
@@ -181,5 +185,7 @@ class Vi < View
         @pending = pending
 
         @multiplier = new_multiplier
+
+        handled
     end
 end

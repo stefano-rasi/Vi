@@ -2,6 +2,8 @@ class Vi < View
     def insert(event)
         key = event.key
 
+        handled = true
+
         case key
         when :Enter
             @lines.insert(@y + 1, [])
@@ -21,7 +23,11 @@ class Vi < View
                 @lines[@y].insert(@x, key)
 
                 @x += 1
+            else
+                handled = false
             end
         end
+
+        handled
     end
 end

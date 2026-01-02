@@ -120,23 +120,27 @@ class Vi < View
         event = Native(event)
 
         if Document.activeElement == @element
-            event.preventDefault()
-            event.stopPropagation()
+            handled = nil
 
             case @mode
             when :normal
-                normal(event)
+                handled = normal(event)
             when :insert
-                insert(event)
+                handled = insert(event)
             when :replace
-                replace(event)
+                handled = replace(event)
             when :command
-                command(event)
+                handled = command(event)
             end
 
-            draw
-            scroll
-            focus
+            if handled != false
+                event.preventDefault()
+                event.stopPropagation()
+
+                draw
+                scroll
+                focus
+            end
         end
     end
 
