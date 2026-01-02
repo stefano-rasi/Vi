@@ -18,8 +18,7 @@ class Vi < View
         when '$'
             x = @lines[@y].length-1
 
-            case @pending
-            when 'd'
+            if @pending == 'd'
                 history
 
                 (x - @x + 1).times { @lines[@y].delete_at(@x) }
@@ -28,8 +27,6 @@ class Vi < View
             else
                 @x = x
             end
-
-            @mode = :insert if @pending == 'c'
         when '0'
             if @multiplier
                 new_multiplier = (@multiplier.to_s + key).to_i
@@ -50,11 +47,8 @@ class Vi < View
             @x += 1 if !@lines[@y].empty?
 
             @mode = :insert
-        when 'c'
-            pending = 'c'
         when 'd'
-            case @pending
-            when 'd'
+            if @pending == 'd'
                 history
 
                 @lines.delete_at(@y)
@@ -69,8 +63,7 @@ class Vi < View
         when 'j'
             y = @y + [multiplier, @lines.length-1 - @y].min
 
-            case @pending
-            when 'd'
+            if @pending == 'd'
                 history
 
                 (y - @y + 1).times { @lines.delete_at(@y) }
@@ -86,8 +79,7 @@ class Vi < View
         when 'k'
             y = @y - [multiplier, @y].min
 
-            case @pending
-            when 'd'
+            if @pending == 'd'
                 history
 
                 (@y - y + 1).times { @lines.delete_at(y) }
@@ -108,6 +100,14 @@ class Vi < View
             history
 
             @mode = :insert
+        when 'p'
+            history
+
+            if @yank
+                @lines.insert(@y, @yank)
+
+                @y += 1
+            end
         when 'o'
             history
 
@@ -143,6 +143,12 @@ class Vi < View
             @lines[@y].delete_at(@x)
 
             @x = @lines[@y].length-1 if @x >= @lines[@y].length
+        when 'y'
+            if @pending == 'y'
+                @yank = @lines[@y]
+            else
+                pending = 'y'
+            end
         when 'A'
             history
 
