@@ -10,6 +10,8 @@ class Vi < View
 
         case key
         when ':'
+            @command = ':'
+
             @mode = :command
         when '$'
             x = @lines[@y].length-1

@@ -5,9 +5,9 @@ class Vi < View
         case key
         when :Enter
             case @command
-            when 'q'
+            when ':q'
                 on_close()
-            when 'w'
+            when ':w'
                 on_save()
             end
 
