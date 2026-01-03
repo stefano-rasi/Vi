@@ -26,9 +26,11 @@ class Vi < View
                                 end
                             else
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                    _html '&nbsp;'
+                                    element.innerHtml '&nbsp;'
 
-                                    @cursor = element if x == @x && y == @y
+                                    if x == @x && y == @y
+                                        @cursor = element
+                                    end
                                 end
                             end
                         else
@@ -41,26 +43,22 @@ class Vi < View
 
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
                                     if character == ' '
-                                        _html '&nbsp;'
+                                        element.innerHtml = '&nbsp;'
                                     else
-                                        _text character
+                                        element.textContent = character
                                     end
 
-                                    @cursor = element if x == @x && y == @y
+                                    if x == @x && y == @y
+                                        @cursor = element
+                                    end
                                 end
 
                                 x += 1
                             end
 
-                            if y == @y && @x == x
-                                if @mode == :insert
-                                    HTML.input 'cursor' do |input|
-                                        @input = input
-                                    end
-                                else
-                                    HTML.div 'character cursor' do |element|
-                                        @cursor = element
-                                    end
+                            if @mode == :insert && y == @y && @x == x
+                                HTML.input 'cursor' do |input|
+                                    @input = input
                                 end
                             end
                         end
@@ -72,18 +70,18 @@ class Vi < View
 
             HTML.div 'status-bar' do
                 if @mode == :command
-                    HTML.div 'command' do
-                        _text @command
+                    HTML.div 'command' do |element|
+                        element.textContent = @command
                     end
                 else
-                    HTML.div 'mode' do
-                        _text "--#{@mode.upcase}--"
+                    HTML.div 'mode' do |element|
+                        element.textContent = "--#{@mode.upcase}--"
                     end
                 end
 
                 if @pending || @multiplier
-                    HTML.div 'pending' do |html|
-                        _text "#{@pending}#{@multiplier}"
+                    HTML.div 'pending' do |element|
+                        element.textContent = "#{@pending}#{@multiplier}"
                     end
                 end
             end

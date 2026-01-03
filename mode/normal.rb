@@ -46,7 +46,7 @@ class Vi < View
         when 'a'
             history
 
-            @x += 1 if !@lines[@y].empty?
+            @x += 1 unless @lines[@y].empty?
 
             @mode = :insert
         when 'd'
