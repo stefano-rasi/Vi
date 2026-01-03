@@ -21,9 +21,11 @@ class Vi < View
             if @pending == 'd'
                 history
 
-                (x - @x + 1).times { @lines[@y].delete_at(@x) }
+                (x - @x + 1).times do
+                    @lines[@y].delete_at(@x)
+                end
 
-                @x -= 1 if @x > 0
+                @x = [@x - 1, 0].max
             else
                 @x = x
             end
@@ -44,7 +46,9 @@ class Vi < View
         when 'a'
             history
 
-            @x += 1 if !@lines[@y].empty?
+            if !@lines[@y].empty?
+                @x += 1
+            end
 
             @mode = :insert
         when 'd'
@@ -54,7 +58,10 @@ class Vi < View
                 @lines.delete_at(@y)
 
                 @x = 0
-                @y -= 1 if @y == @lines.length && @y > 0
+
+                if @y == @lines.length
+                    @y = [@y - 1, 0].max
+                end
 
                 @lines = [[]] if @lines.empty?
             else
@@ -66,14 +73,19 @@ class Vi < View
             if @pending == 'd'
                 history
 
-                (y - @y + 1).times { @lines.delete_at(@y) }
+                (y - @y + 1).times do
+                    @lines.delete_at(@y)
+                end
 
                 @x = 0
-                @y -= 1 if @y == @lines.length && @y > 0
+
+                if @y == @lines.length
+                    @y = [@y - 1, 0].max
+                end
 
                 @lines = [[]] if @lines.empty?
             else
-                @x = [0, [@x, @lines[y].length-1].min].max
+                @x = [[@x, @lines[y].length-1].min, 0].max
                 @y = y
             end
         when 'k'
@@ -82,20 +94,22 @@ class Vi < View
             if @pending == 'd'
                 history
 
-                (@y - y + 1).times { @lines.delete_at(y) }
+                (@y - y + 1).times do
+                    @lines.delete_at(y)
+                end
 
                 @x = 0
-                @y = [0, y - 1].max
+                @y = [y - 1, 0].max
 
                 @lines = [[]] if @lines.empty?
             else
-                @x = [0, [@x, @lines[y].length-1].min].max
+                @x = [[@x, @lines[y].length-1].min, 0].max
                 @y = y
             end
         when 'h'
             @x -= [multiplier, @x].min
         when 'l'
-            @x += [0, [multiplier, @lines[@y].length-1 - @x].min].max
+            @x += [[multiplier, @lines[@y].length-1 - @x].min, 0].max
         when 'i'
             history
 
@@ -130,11 +144,11 @@ class Vi < View
                 @lines = @history.pop
 
                 if @y >= @lines.length
-                    @y = [0, @lines.length-1].max
+                    @y = [@lines.length-1, 0].max
                 end
 
                 if @x >= @lines[@y].length
-                    @x = [0, @lines[@y].length-1].max
+                    @x = [@lines[@y].length-1, 0].max
                 end
             end
         when 'x'
@@ -142,7 +156,9 @@ class Vi < View
 
             @lines[@y].delete_at(@x)
 
-            @x = @lines[@y].length-1 if @x >= @lines[@y].length
+            if @x >= @lines[@y].length
+                @x = @lines[@y].length-1
+            end
         when 'y'
             if @pending == 'y'
                 @yank = @lines[@y].clone
@@ -160,9 +176,11 @@ class Vi < View
 
             x = @lines[@y].length-1
 
-            (x - @x + 1).times { @lines[@y].delete_at(@x) }
+            (x - @x + 1).times do
+                @lines[@y].delete_at(@x)
+            end
 
-            @x -= 1 if @x > 0
+            @x = [@x - 1, 0].max
         when 'G'
             @x = 0
             @y = @lines.length-1

@@ -11,13 +11,13 @@ class Vi < View
             @x = 0
             @y += 1
         when :Escape
-            @x = [0, [@x, @lines[@y].length-1].min].max
+            @x = [[@x, @lines[@y].length-1].min, 0].max
 
             @mode = :normal
         when :Backspace
             @lines[@y].delete_at(@x - 1)
 
-            @x -= 1 if @x > 0
+            @x = [@x - 1, 0].max
         else
             if key.length == 1
                 @lines[@y].insert(@x, key)
