@@ -25,13 +25,15 @@ class Vi < View
                                     @input = input
                                 end
                             else
-                                HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
+                                HTML.div 'character empty', ('cursor' if x == @x && y == @y) do |element|
                                     element.innerHTML = '&nbsp;'
 
                                     if x == @x && y == @y
                                         @cursor = element
                                     end
                                 end
+
+                                HTML.br
                             end
                         else
                             line.each do |character|
