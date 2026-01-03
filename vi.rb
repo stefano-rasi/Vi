@@ -69,17 +69,17 @@ module ViEditor
 
     def on_quit(&block)
         if block_given?
-            @on_close_block = block
-        elsif @on_close_block
-            @on_close_block.call()
+            @on_quit_block = block
+        elsif @on_quit_block
+            @on_quit_block.call()
         end
     end
 
-    def on_save(&block)
+    def on_write(&block)
         if block_given?
-            @on_save_block = block
-        elsif @on_save_block
-            @on_save_block.call(text)
+            @on_write_block = block
+        elsif @on_write_block
+            @on_write_block.call(text)
         end
     end
 end

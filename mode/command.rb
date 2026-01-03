@@ -9,9 +9,9 @@ module ViEditor
             when :Enter
                 case @command
                 when ':q'
-                    on_close()
+                    on_quit()
                 when ':w'
-                    on_save()
+                    on_write()
                 end
 
                 @command = nil
