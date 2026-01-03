@@ -77,7 +77,7 @@ class ViView < View
                     end
                 else
                     HTML.div 'mode' do |element|
-                        element.textContent = "--#{@mode.upcase}--"
+                        element.textContent = "-- #{@mode.upcase} --"
                     end
                 end
 
