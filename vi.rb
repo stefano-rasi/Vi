@@ -26,7 +26,7 @@ class Vi < View
                                 end
                             else
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
-                                    element.innerHtml '&nbsp;'
+                                    element.innerHTML = '&nbsp;'
 
                                     if x == @x && y == @y
                                         @cursor = element
@@ -43,7 +43,7 @@ class Vi < View
 
                                 HTML.div 'character', ('cursor' if x == @x && y == @y) do |element|
                                     if character == ' '
-                                        element.innerHtml = '&nbsp;'
+                                        element.innerHTML = '&nbsp;'
                                     else
                                         element.textContent = character
                                     end
