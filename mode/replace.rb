@@ -1,10 +1,8 @@
-class Vi < View
-    def replace(event)
-        if event.altKey || event.ctrlKey || event.metaKey
+module ViEditor
+    def replace(key, ctrl_key, alt_key)
+        if ctrl_key || alt_key
             false
         else
-            key = event.key
-
             handled = true
 
             case key

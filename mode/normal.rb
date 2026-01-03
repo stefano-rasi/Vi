@@ -1,10 +1,8 @@
-class Vi < View
-    def normal(event)
-        if event.altKey || event.ctrlKey || event.metaKey
+module ViEditor
+    def normal(key, ctrl_key, alt_key)
+        if ctrl_key || alt_key
             false
         else
-            key = event.key
-
             handled = true
 
             if @multiplier
@@ -196,7 +194,7 @@ class Vi < View
             when :Escape
                 pending = nil
             else
-                if key.length != 1
+                if key.length > 1
                     handled = false
 
                     pending = @pending
