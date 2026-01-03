@@ -5,7 +5,8 @@ require 'lib/view/document'
 
 require_relative 'vi'
 
-class ViView < View
+class ViView
+    include View
     include ViEditor
 
     draw do
