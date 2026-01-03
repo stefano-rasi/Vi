@@ -1,6 +1,6 @@
-require 'lib/View/html'
-require 'lib/View/view'
-require 'lib/View/window'
+require 'lib/view/html'
+require 'lib/view/view'
+require 'lib/view/window'
 
 require_relative 'mode/insert'
 require_relative 'mode/normal'
