@@ -58,10 +58,7 @@ class Vi < View
                 @lines.delete_at(@y)
 
                 @x = 0
-
-                if @y == @lines.length
-                    @y = [@y - 1, 0].max
-                end
+                @y = [[@y, @lines.length-1].min, 0].max
 
                 @lines = [[]] if @lines.empty?
             else
@@ -78,10 +75,7 @@ class Vi < View
                 end
 
                 @x = 0
-
-                if @y == @lines.length
-                    @y = [@y - 1, 0].max
-                end
+                @y = [[@y, @lines.length-1].min, 0].max
 
                 @lines = [[]] if @lines.empty?
             else
@@ -115,9 +109,9 @@ class Vi < View
 
             @mode = :insert
         when 'p'
-            history
-
             if @yank
+                history
+
                 @lines.insert(@y, @yank)
 
                 @y += 1
@@ -143,22 +137,15 @@ class Vi < View
             if !@history.empty?
                 @lines = @history.pop
 
-                if @y >= @lines.length
-                    @y = [@lines.length-1, 0].max
-                end
-
-                if @x >= @lines[@y].length
-                    @x = [@lines[@y].length-1, 0].max
-                end
+                @y = [[@y, @lines.length-1].min, 0].max
+                @x = [[@x, @lines[@y].length-1].min, 0].max
             end
         when 'x'
             history
 
             @lines[@y].delete_at(@x)
 
-            if @x >= @lines[@y].length
-                @x = @lines[@y].length-1
-            end
+            @x = [[@x, @lines[@y].length-1].min, 0].max
         when 'y'
             if @pending == 'y'
                 @yank = @lines[@y].clone
