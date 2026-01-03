@@ -112,7 +112,7 @@ class ViView < View
     def on_keydown(event)
         event = Native(event)
 
-        if [@input, @element].include? Document.activeElement
+        if [@element, @input].include? Document.activeElement
             handled = key(event.key, event.ctrlKey, event.altKey)
 
             if handled != false
