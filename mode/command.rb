@@ -1,5 +1,5 @@
 module ViEditor
-    def command(key, ctrl_key, alt_key)
+    def command_mode(key, ctrl_key, alt_key)
         if ctrl_key || alt_key
             false
         else
@@ -23,8 +23,6 @@ module ViEditor
                 @mode = :normal
             else
                 if key.length == 1
-                    @command = '' if !@command
-
                     @command += key
                 else
                     handled = false

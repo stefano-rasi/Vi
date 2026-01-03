@@ -1,5 +1,5 @@
 module ViEditor
-    def replace(key, ctrl_key, alt_key)
+    def replace_mode(key, ctrl_key, alt_key)
         if ctrl_key || alt_key
             false
         else

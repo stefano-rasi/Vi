@@ -51,13 +51,13 @@ module ViEditor
     def key(key, ctrl_key=false, alt_key=false)
         case @mode
         when :insert
-            insert(key, ctrl_key, alt_key)
+            insert_mode(key, ctrl_key, alt_key)
         when :normal
-            normal(key, ctrl_key, alt_key)
+            normal_mode(key, ctrl_key, alt_key)
         when :command
-            command(key, ctrl_key, alt_key)
+            command_mode(key, ctrl_key, alt_key)
         when :replace
-            replace(key, ctrl_key, alt_key)
+            replace_mode(key, ctrl_key, alt_key)
         end
     end
 

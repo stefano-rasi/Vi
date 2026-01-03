@@ -1,5 +1,5 @@
 module ViEditor
-    def normal(key, ctrl_key, alt_key)
+    def normal_mode(key, ctrl_key, alt_key)
         if ctrl_key || alt_key
             false
         else

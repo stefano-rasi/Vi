@@ -1,6 +1,7 @@
 require 'lib/view/html'
 require 'lib/view/view'
 require 'lib/view/window'
+require 'lib/view/document'
 
 require_relative 'vi'
 

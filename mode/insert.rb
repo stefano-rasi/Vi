@@ -1,5 +1,5 @@
 module ViEditor
-    def insert(key, ctrl_key, alt_key)
+    def insert_mode(key, ctrl_key, alt_key)
         if ctrl_key || alt_key
             false
         else
