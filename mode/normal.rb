@@ -46,9 +46,7 @@ class Vi < View
         when 'a'
             history
 
-            if !@lines[@y].empty?
-                @x += 1
-            end
+            @x += 1 if !@lines[@y].empty?
 
             @mode = :insert
         when 'd'
@@ -65,7 +63,7 @@ class Vi < View
                 pending = 'd'
             end
         when 'j'
-            y = @y + [multiplier, @lines.length-1 - @y].min
+            y = [@y + multiplier, @lines.length-1].min
 
             if @pending == 'd'
                 history
@@ -83,7 +81,7 @@ class Vi < View
                 @y = y
             end
         when 'k'
-            y = @y - [multiplier, @y].min
+            y = [@y - multiplier, 0].max
 
             if @pending == 'd'
                 history
@@ -101,9 +99,9 @@ class Vi < View
                 @y = y
             end
         when 'h'
-            @x -= [multiplier, @x].min
+            @x = [@x - multiplier, 0].max
         when 'l'
-            @x += [[multiplier, @lines[@y].length-1 - @x].min, 0].max
+            @x = [@x + multiplier, @lines[@y].length-1].min
         when 'i'
             history
 
@@ -174,6 +172,10 @@ class Vi < View
         when 'H'
             @x = 0
             @y = 0
+        when 'I'
+            @x = 0
+
+            @mode = :insert
         when 'J'
             history
 
