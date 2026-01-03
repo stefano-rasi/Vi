@@ -23,7 +23,9 @@ module ViEditor
             lines = text.split("\n")
 
             if lines.is_a? Array
-                @lines = lines.map { |line| line.split('') }
+                @lines = lines.map { |line|
+                    line.split('')
+                }
             else
                 @lines = [lines.split('')]
             end
