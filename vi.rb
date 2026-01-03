@@ -99,7 +99,9 @@ class Vi < View
             lines = text.split("\n")
 
             if lines.is_a? Array
-                @lines = lines.map { |line| line.split('') }
+                @lines = lines.map { |line|
+                    line.split('')
+                }
             else
                 @lines = [lines.split('')]
             end
@@ -120,7 +122,9 @@ class Vi < View
     end
 
     def text
-        @lines.map { |line| line.join('') }.join("\n")
+        @lines.map { |line|
+            line.join('')
+        }.join("\n")
     end
 
     def focus()

@@ -1,6 +1,6 @@
 class Vi < View
     def command(event)
-        if event.altKey || event.ctrlKey || event.metaKey
+        if event.ctrlKey || event.altlKey || event.metaKey
             false
         else
             key = event.key

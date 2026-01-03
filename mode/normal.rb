@@ -1,6 +1,6 @@
 class Vi < View
     def normal(event)
-        if event.altKey || event.ctrlKey || event.metaKey
+        if event.ctrlKey || event.altKey || event.metaKey
             false
         else
             key = event.key
