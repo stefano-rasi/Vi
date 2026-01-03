@@ -1,35 +1,39 @@
 class Vi < View
     def command(event)
-        key = event.key
-
-        handled = true
-
-        case key
-        when :Enter
-            case @command
-            when ':q'
-                on_close()
-            when ':w'
-                on_save()
-            end
-
-            @command = nil
-
-            @mode = :normal
-        when :Escape
-            @command = nil
-
-            @mode = :normal
+        if event.altKey || event.ctrlKey || event.metaKey
+            false
         else
-            if key.length == 1
-                @command = '' if !@command
+            key = event.key
 
-                @command += key
+            handled = true
+
+            case key
+            when :Enter
+                case @command
+                when ':q'
+                    on_close()
+                when ':w'
+                    on_save()
+                end
+
+                @command = nil
+
+                @mode = :normal
+            when :Escape
+                @command = nil
+
+                @mode = :normal
             else
-                handled = false
-            end
-        end
+                if key.length == 1
+                    @command = '' if !@command
 
-        handled
+                    @command += key
+                else
+                    handled = false
+                end
+            end
+
+            handled
+        end
     end
 end

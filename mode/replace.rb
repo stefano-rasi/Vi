@@ -1,16 +1,26 @@
 class Vi < View
     def replace(event)
-        key = event.key
-
-        case key
-        when :Escape
-            @mode = :normal
+        if event.altKey || event.ctrlKey || event.metaKey
+            false
         else
-            if key.length == 1
-                @lines[@y][@x] = key
+            key = event.key
 
+            handled = true
+
+            case key
+            when :Escape
                 @mode = :normal
+            else
+                if key.length == 1
+                    @lines[@y][@x] = key
+
+                    @mode = :normal
+                else
+                    handled = false
+                end
             end
+
+            handled
         end
     end
 end
