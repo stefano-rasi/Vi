@@ -37,13 +37,13 @@ module ViEditor
                     @x = 0
                 end
             when '1'..'9'
-                pending = @pending
-
                 if @multiplier
                     new_multiplier = (@multiplier.to_s + key).to_i
                 else
                     new_multiplier = key.to_i
                 end
+
+                pending = @pending
             when 'a'
                 history
 

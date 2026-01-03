@@ -46,16 +46,6 @@ module ViEditor
         }.join("\n")
     end
 
-    def scroll()
-        @cursor.scrollIntoView({block: :nearest})
-    end
-
-    def history()
-        @history << @lines.map { |line|
-            line.clone
-        }
-    end
-
     def key(key, ctrl_key=false, alt_key=false)
         case @mode
         when :insert
@@ -67,6 +57,12 @@ module ViEditor
         when :replace
             replace(key, ctrl_key, alt_key)
         end
+    end
+
+    def history()
+        @history << @lines.map { |line|
+            line.clone
+        }
     end
 
     def on_quit(&block)
